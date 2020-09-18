@@ -1,0 +1,31 @@
+TD1
+
+Exo 1 - Chiffrement par Masque Jetable
+
+Exo 1
+
+a. Table de vérité du xor
+
+  xor  0  1
+   1   1  0
+   0   0  1
+
+d. DEMO
+
+On note ki (resp mi, ci) le ième bit de la clé (resp. du message chiffré).
+
+Cas où ci est aléatoire :
+p(ci=0) = 1/2
+p(ci=1) = 1/2
+
+Cas où ki est aléatoire, ci = ki xor m :
+p(ki=0) = 1/2
+p(ki=1) = 1/2
+
+Quelque soit ki et m : ki xor m = 0|1
+donc p(ci=0) = pc(ci=1) = 1/2
+
+e. attaque !!!!
+On prend les chiffrés c1 et c2 dont on dispose et on compare la distance de
+chacun de leur caractère avec chaque caractère du même indice des messages de la
+liste.
