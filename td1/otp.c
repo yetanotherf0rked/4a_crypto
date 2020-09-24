@@ -68,17 +68,31 @@ void generate_challenge(char * cipher_r, char * cipher_s){
     encrypt(key, plain_s, cipher_s);
 
     // Sortie standard :
-    print("\n\nGENERATION CHALLENGE\n\n");
+    printf("\n\nGENERATION CHALLENGE\n\n");
     printf("Key : %s\nPlain_s : %s\nPlain_r : %s\nCipher_s : %s\nCipher_r :%s\n",key,plain_s,plain_r,cipher_s,cipher_r);
 }
 
 void attack(char * cipher_r, char * cipher_s){
-    // Pour chaque mot, on compare la distance entre les lettres de cipher_r et
-    // cipher_s et après on compare les résultats
-    int i, j, dist_r[NB_MSG][SIZE],dist_s[NB_MSG][SIZE];
-    // soit i le nombre de messages
-    for (i=0;i<NB_MSG;i++)
-       dist(key, cipher_r, dist_r[i]);
+    char xored_ciphers[SIZE];
+    Xor(cipher_r, cipher_s, xored_ciphers);
+    char xored_plains[SIZE];
+    char keys_candidates[4][SIZE];
+    for (int i=0; i<NB_MSG-1; i++)
+      for (int j=i+1; j<NB_MSG; j++) {
+        Xor(tabl[i], tabl[j], xored_plains);
+        if (!strcmp(xored_plains,xored_ciphers)){
+          printf("Found message 1 : \"%s\" and 2 \"%s\"\n", tabl[i], tabl[j]);
+          printf("Possible keys :\n");
+          Xor(tabl[i], cipher_r, keys_candidates[0]);
+          Xor(tabl[i], cipher_s, keys_candidates[1]);
+          Xor(tabl[j], cipher_r, keys_candidates[2]);
+          Xor(tabl[j], cipher_s, keys_candidates[3]);
+          for(int k=0; k<4;k++){
+            printf("%s\n",keys_candidates[k]);
+          }
+          break;
+        }
+      }
 }
 
 

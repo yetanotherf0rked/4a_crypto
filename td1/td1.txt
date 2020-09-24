@@ -2,8 +2,6 @@ TD1
 
 Exo 1 - Chiffrement par Masque Jetable
 
-Exo 1
-
 a. Table de vérité du xor
 
   xor  0  1
@@ -26,6 +24,17 @@ Quelque soit ki et m : ki xor m = 0|1
 donc p(ci=0) = pc(ci=1) = 1/2
 
 e. attaque !!!!
-On prend les chiffrés c1 et c2 dont on dispose et on compare la distance de
-chacun de leur caractère avec chaque caractère du même indice des messages de la
-liste.
+C1 = M1 XOR K
+C2 = M2 XOR K
+C1 XOR C2 = (M1 XOR K) XOR (M2 XOR K)
+          = (M1 XOR M2) XOR (K XOR K)
+          = (M1 XOR M2)
+On compare C1 XOR X2 à tous les Mx XOR My de la liste. On retrouve les deux
+messages clairs s'il y a égalité.
+
+f. On trouve deux clés possibles :
+C1 = M1 XOR K donc K = C1 XOR M1, de même pour C2,M2.
+
+Mais on ne sait pas quel clair correspond à quel chiffré, or il n'y a que deux
+combinaisons possibles. On trouve donc deux clés différentes. Une des deux a été
+utilisée pour le chiffrement.
