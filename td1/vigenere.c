@@ -8,7 +8,7 @@
 #define SMALL_SIZE 11
 #define INC 0
 #define DEC 1
-#define KEY_LENGTH 7
+#define KEY_LENGTH 9
 #define MAX_KEY_LENGTH 50
 #define NB_MSG 10
 
@@ -35,7 +35,8 @@ int pgcd(int nbr1, int nbr2){
         if(nbr1%i==0 && nbr2%i==0)
             pgcd = i;
     }
-  
+
+    /** printf("pgcd(%d,%d) = %d", nbr1,nbr2,pgcd);  */
     return pgcd;
 }
 
@@ -52,14 +53,17 @@ int max(int * arr, int len){
 
 int most_likely_pgcd(int * nbr, int len){
   int pgcds[MAX_KEY_LENGTH] = {0};
-  for(int i = 0;i<len-1;i++){
-    for (int j=i;j<len;j++){
-      int my_pgcd =pgcd(i,j);
-      if (my_pgcd != 1) pgcds[my_pgcd]++; 
+  for(int i = 0;i<len-1 && nbr[i]!=-1;i++){
+    if (i==-1)
+      break;
+    for (int j=i;j<len && nbr[j]!=-1;j++){
+      int my_pgcd =pgcd(nbr[i],nbr[j]);
+      if (my_pgcd != 1)
+        pgcds[my_pgcd]++;
     }
   }
-  for (int i=0;i<MAX_KEY_LENGTH;i++)
-      printf("%d : %d\n", i, pgcds[i]);
+  /** for (int i=0;i<MAX_KEY_LENGTH;i++) */
+  /**     printf("%d : %d\n", i, pgcds[i]); */
   return max(pgcds, MAX_KEY_LENGTH);
 }
 
@@ -73,7 +77,9 @@ void find_repeated_substrings_within_string(char * str){
   // un indice ou bien que c'est une case vide
   memset((void *)alphabet_ind, -1, 30*26*sizeof(int));
   printf("Redondances :\n");
-  int distances[20] = {-1};
+  int distances[20];
+  memset((void *)distances, -1, 20*sizeof(int));
+
   // Pour chaque lettre du mot chiffré
   for(int i=0;i<len;i++){
     int j = 0;
@@ -115,6 +121,13 @@ void find_repeated_substrings_within_string(char * str){
       j++;
     }
   }
+
+  // debug distances
+  /** for (int i=0 ; i<20 ; i++) { */
+  /**   printf("%d\t",distances[i]); */
+  /** } */
+  /** printf("\n\n"); */
+
   printf("Most likely key size : %d",most_likely_pgcd(distances, 20));
 
   // affichage des indices
